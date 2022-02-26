@@ -1,20 +1,39 @@
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import { useState } from "react";
+import InsertarDinero from "./screen/InsertarDinero";
 
 export default function App() {
+
+  const [showDinero, setShowDinero] = useState(false);
+  const [showList, setShowList] = useState(false);
+
+   let dinero =  <Text style={styles.texto}>Balance del presupuesto:</Text>
+  if (showDinero) {
+    dinero = <InsertarDinero setShowDinero={setShowDinero}/>
+  }
+
+  
+
+  let lis = <Text></Text>
+  if (showList) {
+    lis = <Text>dsdss</Text>
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.container}>
-        <Text style={styles.texto}>Balance del presupuesto:</Text>
+      {dinero}
+      {lis}
       </View>
 
       <View style={styles.buttonIntroducir}>
-        <Button title="introducir dinero" />
+        <Button onPress={() =>setShowDinero(true) } title="introducir dinero" />
       </View>
   
       <View style={styles.buttonIntroducir}>
-        <Button title="listado de movimientos" />
+        <Button onPress={() => setShowList(true)}title="listado de movimientos" />
       </View>
+    
     </View>
   );
 }
