@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import { useState, useEffect } from "react";
 import InsertarDinero from "./screen/InsertarDinero";
 import ListMovimientos from "./screen/ListMovimientos";
 import Size from "./constants/Size";
 
 export default function App() {
+
   const [showDinero, setShowDinero] = useState(false);
   const [showList, setShowList] = useState(false);
   const [almacenaPresupuesto, setAlmacenaPresupuesto] = useState([]);
@@ -17,8 +18,16 @@ export default function App() {
       let num = parseInt(e.importe);
       sum += num;
     });
+
     setBalance(sum);
-  }, [almacenaPresupuesto]);
+
+    if (sum >= 0) {
+      setChangeColor(true);
+    } else {
+      setChangeColor(false);
+    }
+
+  },[almacenaPresupuesto]);
 
   const addData = (descripcion, importe) => {
     setAlmacenaPresupuesto((current) => [
@@ -30,14 +39,6 @@ export default function App() {
         fecha: new Date(),
       },
     ]);
-  };
-
-  const comprobarColor = () => {
-    if (balance > 0) {
-      setChangeColor(false);
-    } else {
-      setChangeColor(true);
-    }
   };
 
   const deletePresupuesto = (key) => {
@@ -56,14 +57,9 @@ export default function App() {
       </Text>
     </View>
   );
+
   if (showDinero) {
-    dinero = (
-      <InsertarDinero
-        setShowDinero={setShowDinero}
-        addData={addData}
-        comprobarColor={comprobarColor}
-      />
-    );
+    dinero = <InsertarDinero setShowDinero={setShowDinero} addData={addData} />;
   }
 
   let lis = null;

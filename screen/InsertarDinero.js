@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   Button,
   TouchableOpacity,
@@ -11,7 +10,7 @@ import {
 import Input from "../components/Input";
 import FontImg from "../constants/FontImg"
 
-const InsertarDinero = ({ setShowDinero, addData, comprobarColor }) => {
+const InsertarDinero = ({ setShowDinero, addData}) => {
   const [descripcion, setDescripcion] = useState("");
   const [importe, setImporte] = useState();
 
@@ -33,7 +32,6 @@ const InsertarDinero = ({ setShowDinero, addData, comprobarColor }) => {
       }])
     } else {
       addData(descripcion, importe);
-      comprobarColor();
       setDescripcion("");
       setImporte("");
     }
