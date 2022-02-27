@@ -6,20 +6,21 @@ import {
   Button,
   TouchableOpacity,
   FlatList,
-  Image
+  Image,
 } from "react-native";
 
 import Colors from "../constants/Colors";
 import Size from "../constants/Size";
 import FontImg from "../constants/FontImg";
 
-const ListMovimientos = ({ almacenaPresupuesto = [], setShowList }) => {
+const ListMovimientos = ({ almacenaPresupuesto = [], setShowList, deletePresupuesto }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => setShowList(false)}   >
-         <Image
-         style={styles.img}
-        source={require('../assets/flecha-correcta.png')} />
+      <TouchableOpacity onPress={() => setShowList(false)}>
+        <Image
+          style={styles.img}
+          source={require("../assets/flecha-correcta.png")}
+        />
       </TouchableOpacity>
 
       <FlatList
@@ -36,16 +37,20 @@ const ListMovimientos = ({ almacenaPresupuesto = [], setShowList }) => {
             fecha.getFullYear();
 
           return (
-            <View style={styles.informacion}>
-              <Text style={styles.textoCaja} > descripcion: {descripcion}</Text>
-              <Text style={styles.textoCaja}> importe: {importe}</Text>
-              <Text style={styles.textoCaja}> fecha: {fechacompleta}</Text>
-            </View>
+            <TouchableOpacity onPress={() => deletePresupuesto(key)}>
+              <View style={styles.informacion}>
+                <Text style={styles.textoCaja}>
+                  descripcion: {descripcion}
+                </Text>
+                <Text style={styles.textoCaja}> importe: {importe}</Text>
+                <Text style={styles.textoCaja}> fecha: {fechacompleta}</Text>
+              </View>
+            </TouchableOpacity>
           );
         }}
       />
     </View>
-  ); 
+  );
 };
 
 const styles = StyleSheet.create({
@@ -65,13 +70,12 @@ const styles = StyleSheet.create({
   },
   textoCaja: {
     fontSize: Size.fontSize,
-    fontWeight: "bold"
-},
-img: {
-  width:FontImg.width,
-  height:FontImg.height
-}
-
+    fontWeight: "bold",
+  },
+  img: {
+    width: FontImg.width,
+    height: FontImg.height,
+  },
 });
 
 export default ListMovimientos;

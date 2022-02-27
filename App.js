@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import InsertarDinero from "./screen/InsertarDinero";
 import ListMovimientos from "./screen/ListMovimientos";
 import Size from "./constants/Size";
+
 export default function App() {
   const [showDinero, setShowDinero] = useState(false);
   const [showList, setShowList] = useState(false);
@@ -17,8 +18,6 @@ export default function App() {
       sum += num;
     });
     setBalance(sum);
-
-    
   }, [almacenaPresupuesto]);
 
   const addData = (descripcion, importe) => {
@@ -38,21 +37,33 @@ export default function App() {
       setChangeColor(false);
     } else {
       setChangeColor(true);
-
     }
-  }
+  };
 
+  const deletePresupuesto = (key) => {
+    setAlmacenaPresupuesto((curPresupuesto) => {
+      return curPresupuesto.filter((alma) => alma.key !== key);
+    });
+  };
 
   let dinero = (
-    <View style={styles.texto}> 
-      <Text style={styles.texto} >Balance del presupuesto: </Text>
-      <Text style={[styles.texto,changeColor ? styles.positivo : styles.negativo]}>
+    <View style={styles.texto}>
+      <Text style={styles.texto}>Balance del presupuesto: </Text>
+      <Text
+        style={[styles.texto, changeColor ? styles.positivo : styles.negativo]}
+      >
         {balance}
       </Text>
     </View>
   );
   if (showDinero) {
-    dinero = <InsertarDinero setShowDinero={setShowDinero} addData={addData} comprobarColor={comprobarColor}/>;
+    dinero = (
+      <InsertarDinero
+        setShowDinero={setShowDinero}
+        addData={addData}
+        comprobarColor={comprobarColor}
+      />
+    );
   }
 
   let lis = null;
@@ -61,11 +72,11 @@ export default function App() {
       <ListMovimientos
         almacenaPresupuesto={almacenaPresupuesto}
         setShowList={setShowList}
+        deletePresupuesto={deletePresupuesto}
       />
     );
   }
 
- 
   return (
     <View style={styles.container}>
       <View style={styles.container}>
@@ -102,7 +113,7 @@ const styles = StyleSheet.create({
   },
   texto: {
     fontSize: Size.fontSize,
-    flexDirection:"row"
+    flexDirection: "row",
   },
   positivo: {
     color: "green",
