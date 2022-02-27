@@ -19,7 +19,7 @@ const InsertarDinero = ({ setShowDinero, addData}) => {
   };
 
   const handleImporte = (importe) => {
-    setImporte(importe);
+    setImporte(importe.replace(/[^0-9]/g,''));
   };
 
   const validaPresupuesto = () => {
@@ -55,6 +55,7 @@ const InsertarDinero = ({ setShowDinero, addData}) => {
         <Input
           placeholder="importe"
           onChangeText={handleImporte}
+          keyboardType="number-pad"
           value={importe}
         />
       </View>

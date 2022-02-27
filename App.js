@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import InsertarDinero from "./screen/InsertarDinero";
 import ListMovimientos from "./screen/ListMovimientos";
@@ -42,11 +42,13 @@ export default function App() {
   };
 
   const deletePresupuesto = (key) => {
+
     setAlmacenaPresupuesto((curPresupuesto) => {
       return curPresupuesto.filter((alma) => alma.key !== key);
     });
   };
 
+  
   let dinero = (
     <View style={styles.texto}>
       <Text style={styles.texto}>Balance del presupuesto: </Text>
