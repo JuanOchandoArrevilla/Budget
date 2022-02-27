@@ -2,25 +2,27 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import Input from "../components/Input";
 
-const InsertarDinero = ({setShowDinero}) => {
+const InsertarDinero = ({setShowDinero, addData}) => {
 
-  const [data, setData] = useState({
-    key:  Math.random().toString(),
-    descripcion: "",
-    importe: "",
-    fecha: new Date(),
-  });
+  const [descripcion, setDescripcion] = useState("");
+  const [importe, setImporte] = useState(0);
 
   const handleDescripcion = (descripcion) => {
-     setData({...data,descripcion});
+    setDescripcion(descripcion);
 
   }
 
   const handleImporte = (importe) => {
-        setData({...data,importe})
+      setImporte(importe);
   }
 
-  console.log(data);
+  const validaPresupuesto = () => {
+    addData(descripcion, importe);
+    setDescripcion("");
+    setImporte("");
+
+  }
+
 
 
   return (
@@ -29,12 +31,11 @@ const InsertarDinero = ({setShowDinero}) => {
         <Button onPress={() => setShowDinero(false)} title="atra"/>
       </View>
       <View> 
-      <Input placeholder="descripcion" onChangeText={(descripcion) => handleDescripcion(descripcion)} value={data.descripcion} />
-      <Input placeholder="importe" onChangeText={(importe) => handleImporte(importe)} value={data.importe} />
-      <Input placeholder="fecha"  value={data.fecha} />
+      <Input placeholder="descripcion" onChangeText={handleDescripcion} value={descripcion} />
+      <Input placeholder="importe" onChangeText={handleImporte} value={importe} />
       </View>
 
-      <Button  onPress={() => alert(data.key)} title="enviar"/>
+      <Button  onPress={validaPresupuesto } title="enviar"/>
       
     </View>
   );
