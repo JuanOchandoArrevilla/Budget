@@ -4,29 +4,36 @@ import {
   View,
   Button,
   TouchableOpacity,
-  Image,
   Alert 
 } from "react-native";
 import Input from "../components/Input";
 import FontImg from "../constants/FontImg"
+import Imagen from "../components/Imagen";
+
 
 const InsertarDinero = ({ setShowDinero, addData}) => {
   const [descripcion, setDescripcion] = useState("");
-  const [importe, setImporte] = useState();
+  const [importe, setImporte] = useState("");
 
   const handleDescripcion = (descripcion) => {
     setDescripcion(descripcion);
   };
 
   const handleImporte = (importe) => {
-    setImporte(importe.replace(/[^0-9]/g,''));
+    setImporte(importe.replace(/[^-?0-9+]/g,''));
+
   };
 
   const validaPresupuesto = () => {
-    console.log(importe);
     if (descripcion === "" || importe === NaN || importe === undefined) {
-      Alert.alert("errror",
-      "los campos no pueden estar vacidos", [{
+      Alert.alert("error",
+      "los campos no pueden estar vácidos", [{
+        text:"ok",
+        style:"destructive"
+      }])
+    } else if (importe.includes("--")) {
+      Alert.alert("error",
+      "el campo importe no puede tener muchas negativos", [{
         text:"ok",
         style:"destructive"
       }])
@@ -41,11 +48,9 @@ const InsertarDinero = ({ setShowDinero, addData}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => setShowDinero(false)}>
-        <Image
-          style={styles.img}
-          source={require("../assets/flecha-correcta.png")}
-        />
+      < Imagen />
       </TouchableOpacity>
+
       <View style={styles.input}>
         <Input
           placeholder="descripcion"

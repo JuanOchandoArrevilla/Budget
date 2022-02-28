@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, Button, Alert } from "react-native";
+import { StyleSheet, View, Button } from "react-native";
 import { useState, useEffect } from "react";
 import InsertarDinero from "./screen/InsertarDinero";
 import ListMovimientos from "./screen/ListMovimientos";
 import Size from "./constants/Size";
+import Title from "./components/Title";
 
 export default function App() {
 
@@ -13,15 +14,15 @@ export default function App() {
   const [changeColor, setChangeColor] = useState(true);
 
   useEffect(() => {
-    let sum = 0;
+    let total_balance = 0;
     almacenaPresupuesto.map((e) => {
       let num = parseInt(e.importe);
-      sum += num;
+      total_balance += num;
     });
 
-    setBalance(sum);
+    setBalance(total_balance);
 
-    if (sum >= 0) {
+    if (total_balance >= 0) {
       setChangeColor(true);
     } else {
       setChangeColor(false);
@@ -30,7 +31,7 @@ export default function App() {
   },[almacenaPresupuesto]);
 
   const addData = (descripcion, importe) => {
-    setAlmacenaPresupuesto((current) => [
+    setAlmacenaPresupuesto((currentValue) => [
       ...almacenaPresupuesto,
       {
         key: Math.random().toString(),
@@ -43,30 +44,21 @@ export default function App() {
 
   const deletePresupuesto = (key) => {
 
-    setAlmacenaPresupuesto((curPresupuesto) => {
-      return curPresupuesto.filter((alma) => alma.key !== key);
+    setAlmacenaPresupuesto((currentAlmacenaPresupuesto) => {
+      return currentAlmacenaPresupuesto.filter((presupuesto) => presupuesto.key !== key);
     });
   };
 
   
-  let dinero = (
-    <View style={styles.texto}>
-      <Text style={styles.texto}>Balance del presupuesto: </Text>
-      <Text
-        style={[styles.texto, changeColor ? styles.positivo : styles.negativo]}
-      >
-        {balance}
-      </Text>
-    </View>
-  );
+  let dinero = <Title balance={balance} changeColor={changeColor} />;
 
   if (showDinero) {
     dinero = <InsertarDinero setShowDinero={setShowDinero} addData={addData} />;
   }
 
-  let lis = null;
+  let lista = null;
   if (showList) {
-    lis = (
+    lista = (
       <ListMovimientos
         almacenaPresupuesto={almacenaPresupuesto}
         setShowList={setShowList}
@@ -79,7 +71,7 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.container}>
         {dinero}
-        {lis}
+        {lista}
       </View>
 
       <View style={styles.buttonIntroducir}>
@@ -109,14 +101,5 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: Size.fontSize,
   },
-  texto: {
-    fontSize: Size.fontSize,
-    flexDirection: "row",
-  },
-  positivo: {
-    color: "green",
-  },
-  negativo: {
-    color: "red",
-  },
+  
 });
